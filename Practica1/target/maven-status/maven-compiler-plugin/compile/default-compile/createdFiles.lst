@@ -1,0 +1,13 @@
+com\mycompany\practica1\controller\MainController.class
+com\mycompany\practica1\modelo\Punto.class
+com\mycompany\practica1\SecondaryController.class
+com\mycompany\practica1\algoritmos\BusquedaDyV.class
+com\mycompany\practica1\algoritmos\QuickSort.class
+com\mycompany\practica1\algoritmos\BusquedaExhaustiva.class
+com\mycompany\practica1\PrimaryController.class
+com\mycompany\practica1\algoritmos\BusquedaPoda.class
+com\mycompany\practica1\modelo\ParPuntos.class
+com\mycompany\practica1\App.class
+module-info.class
+com\mycompany\practica1\modelo\Solucion.class
+com\mycompany\practica1\algoritmos\BusquedaDyV_mejorada.class

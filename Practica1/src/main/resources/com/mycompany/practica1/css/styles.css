@@ -1,0 +1,112 @@
+/* Estilos visuales para AMC Práctica 1 */
+.root {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-base: #f5f6f8;
+    -fx-background-color: #f8fafc;
+}
+
+/* Encabezado */
+.header-box {
+    -fx-background-color: linear-gradient(to right, #1e293b, #334155);
+    -fx-padding: 14px 20px;
+}
+
+.header-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.header-subtitle {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 12px;
+}
+
+/* Pestañas */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #e2e8f0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #cbd5e1;
+    -fx-padding: 6px 16px;
+    -fx-background-radius: 4px 4px 0 0;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #ffffff;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #334155;
+    -fx-font-weight: bold;
+}
+
+/* Botones */
+.button {
+    -fx-background-color: #0284c7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 12px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #0369a1;
+}
+
+.button:pressed {
+    -fx-background-color: #075985;
+}
+
+.button-secondary {
+    -fx-background-color: #64748b;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #475569;
+}
+
+.button-success {
+    -fx-background-color: #16a34a;
+}
+
+.button-success:hover {
+    -fx-background-color: #15803d;
+}
+
+/* Tablas */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 4px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f1f5f9;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+/* Lienzo Canvas */
+.canvas-container {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+/* Barra de estado */
+.status-bar {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 6px 15px;
+}
+
+.status-label {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+}

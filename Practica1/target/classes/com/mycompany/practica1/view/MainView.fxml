@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0" prefWidth="1100.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.practica1.controller.MainController">
+   <top>
+      <VBox styleClass="header-box" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="header-title" text="AMC - Práctica 1: Búsqueda del Par de Puntos Más Cercanos" />
+            <Label styleClass="header-subtitle" text="Análisis y Comparación de Algoritmos Exhaustivos, con Poda y Divide y Vencerás" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <!-- PESTAÑA 1: DATASET Y COMPROBACIÓN -->
+          <Tab text="Dataset y Comprobación">
+             <content>
+                <BorderPane>
+                   <left>
+                      <VBox prefWidth="300.0" spacing="12.0" BorderPane.alignment="CENTER">
+                         <padding>
+                            <Insets bottom="10.0" left="12.0" right="12.0" top="12.0" />
+                         </padding>
+                         <children>
+                            <TitledPane collapsible="false" text="Cargar / Generar Dataset">
+                               <content>
+                                  <VBox spacing="10.0">
+                                     <children>
+                                        <Button fx:id="btnCargarTSP" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCargarTSP" text="Cargar Fichero .tsp..." />
+                                        <Label style="-fx-font-weight: bold;" text="Generar Dataset Aleatorio:" />
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                           <children>
+                                              <Label text="Talla (N):" />
+                                              <TextField fx:id="txtTallaAleatoria" prefWidth="80.0" text="500" />
+                                           </children>
+                                        </HBox>
+                                        <VBox spacing="4.0">
+                                           <children>
+                                              <RadioButton fx:id="rbCasoMedio" mnemonicParsing="false" selected="true" text="Caso Medio (Distribución Normal)">
+                                                 <toggleGroup>
+                                                    <ToggleGroup fx:id="tgTipoAleatorio" />
+                                                 </toggleGroup>
+                                              </RadioButton>
+                                              <RadioButton fx:id="rbPeorCaso" mnemonicParsing="false" text="Peor Caso (Misma vertical X=1)" toggleGroup="$tgTipoAleatorio" />
+                                           </children>
+                                        </VBox>
+                                        <Button fx:id="btnGenerarAleatorio" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGenerarAleatorio" text="Generar Aleatorio" />
+                                     </children>
+                                  </VBox>
+                               </content>
+                            </TitledPane>
+                            <TitledPane collapsible="false" text="Ejecución de Estrategias">
+                               <content>
+                                  <VBox spacing="10.0">
+                                     <children>
+                                        <Button fx:id="btnComprobarEstrategias" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onComprobarEstrategias" styleClass="button-success" text="Comprobar 4 Estrategias" />
+                                        <Button fx:id="btnGuardarFicheros" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGuardarFicheros" styleClass="button-secondary" text="Guardar Ficheros .tsp" />
+                                     </children>
+                                  </VBox>
+                               </content>
+                            </TitledPane>
+                            <TitledPane collapsible="false" text="Información del Dataset">
+                               <content>
+                                  <VBox spacing="4.0">
+                                     <children>
+                                        <Label fx:id="lblInfoNombre" text="Nombre: Ninguno" />
+                                        <Label fx:id="lblInfoTalla" text="Puntos: 0" />
+                                        <Label fx:id="lblInfoRangoX" text="Rango X: -" />
+                                        <Label fx:id="lblInfoRangoY" text="Rango Y: -" />
+                                     </children>
+                                  </VBox>
+                               </content>
+                            </TitledPane>
+                         </children>
+                      </VBox>
+                   </left>
+                   <center>
+                      <SplitPane dividerPositions="0.60" orientation="VERTICAL" BorderPane.alignment="CENTER">
+                        <items>
+                            <!-- Panel Superior: Canvas -->
+                            <VBox spacing="6.0">
+                               <padding>
+                                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                               </padding>
+                               <children>
+                                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                     <children>
+                                        <Label style="-fx-font-weight: bold;" text="Visualización Gráfica del Dataset y Par Más Cercano:" />
+                                        <Label fx:id="lblCanvasDetalle" text="(Línea roja: distancia euclídea mínima)" textFill="#64748b" />
+                                     </children>
+                                  </HBox>
+                                  <Pane fx:id="paneCanvas" styleClass="canvas-container" VBox.vgrow="ALWAYS">
+                                     <children>
+                                        <Canvas fx:id="canvasPuntos" height="300.0" width="750.0" />
+                                     </children>
+                                  </Pane>
+                               </children>
+                            </VBox>
+                            <!-- Panel Inferior: Tabla de Resultados -->
+                            <VBox spacing="6.0">
+                               <padding>
+                                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                               </padding>
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Resultados de las 4 Estrategias:" />
+                                  <TableView fx:id="tablaResultados" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                      <TableColumn fx:id="colEstrategia" prefWidth="130.0" text="Estrategia" />
+                                      <TableColumn fx:id="colPunto1" prefWidth="170.0" text="Punto 1" />
+                                      <TableColumn fx:id="colPunto2" prefWidth="170.0" text="Punto 2" />
+                                      <TableColumn fx:id="colDistancia" prefWidth="120.0" text="Distancia" />
+                                      <TableColumn fx:id="colCalculadas" prefWidth="100.0" text="Calculadas" />
+                                      <TableColumn fx:id="colTiempo" prefWidth="100.0" text="Tiempo (ms)" />
+                                    </columns>
+                                  </TableView>
+                               </children>
+                            </VBox>
+                        </items>
+                      </SplitPane>
+                   </center>
+                </BorderPane>
+             </content>
+          </Tab>
+
+          <!-- PESTAÑA 2: ESTUDIO EXPERIMENTAL (4 ESTRATEGIAS) -->
+          <Tab text="Estudio Experimental (4 Estrategias)">
+             <content>
+                <BorderPane>
+                   <top>
+                      <HBox alignment="CENTER_LEFT" spacing="14.0" style="-fx-background-color: #f1f5f9; -fx-padding: 10px;" BorderPane.alignment="CENTER">
+                         <children>
+                            <Label style="-fx-font-weight: bold;" text="Tallas (separadas por coma):" />
+                            <TextField fx:id="txtTallasExp" prefWidth="200.0" text="200, 500, 1500, 5000" />
+                            <Label style="-fx-font-weight: bold;" text="Experimentos por talla:" />
+                            <TextField fx:id="txtRepeticionesExp" prefWidth="50.0" text="10" />
+                            <Button fx:id="btnEjecutarExperimental" mnemonicParsing="false" onAction="#onEjecutarExperimental" text="Ejecutar Estudio Completo" />
+                         </children>
+                      </HBox>
+                   </top>
+                   <center>
+                      <SplitPane dividerPositions="0.45" BorderPane.alignment="CENTER">
+                        <items>
+                            <VBox spacing="8.0">
+                               <padding>
+                                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                               </padding>
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Tabla de Tiempos Medios (ms):" />
+                                  <TableView fx:id="tablaExperimental" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                      <TableColumn fx:id="colExpTalla" prefWidth="70.0" text="Talla" />
+                                      <TableColumn fx:id="colExpExhaustivo" prefWidth="95.0" text="Exhaustivo" />
+                                      <TableColumn fx:id="colExpPoda" prefWidth="95.0" text="Exh. Poda" />
+                                      <TableColumn fx:id="colExpDyV" prefWidth="95.0" text="Divide Venc." />
+                                      <TableColumn fx:id="colExpDyVMej" prefWidth="95.0" text="DyV Mejorado" />
+                                    </columns>
+                                  </TableView>
+                               </children>
+                            </VBox>
+                            <VBox spacing="8.0">
+                               <padding>
+                                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                               </padding>
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Gráfico Comparativo de Tiempos de Ejecución:" />
+                                  <LineChart fx:id="chartExperimental" animated="false" VBox.vgrow="ALWAYS">
+                                    <xAxis>
+                                      <NumberAxis label="Talla N (Número de Puntos)" side="BOTTOM" fx:id="xAxisExp" />
+                                    </xAxis>
+                                    <yAxis>
+                                      <NumberAxis fx:id="yAxisExp" label="Tiempo Medio (ms)" side="LEFT" />
+                                    </yAxis>
+                                  </LineChart>
+                               </children>
+                            </VBox>
+                        </items>
+                      </SplitPane>
+                   </center>
+                </BorderPane>
+             </content>
+          </Tab>
+
+          <!-- PESTAÑA 3: COMPARAR 2 ESTRATEGIAS -->
+          <Tab text="Comparar 2 Estrategias">
+             <content>
+                <BorderPane>
+                   <top>
+                      <VBox spacing="8.0" style="-fx-background-color: #f1f5f9; -fx-padding: 10px;" BorderPane.alignment="CENTER">
+                         <children>
+                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Estrategia 1:" />
+                                  <ComboBox fx:id="cbAlgoritmo1" prefWidth="160.0" />
+                                  <Label style="-fx-font-weight: bold;" text="Estrategia 2:" />
+                                  <ComboBox fx:id="cbAlgoritmo2" prefWidth="160.0" />
+                                  <Label text="|" />
+                                  <RadioButton fx:id="rbDosMedio" mnemonicParsing="false" selected="true" text="Caso Medio">
+                                     <toggleGroup>
+                                        <ToggleGroup fx:id="tgTipoDos" />
+                                     </toggleGroup>
+                                  </RadioButton>
+                                  <RadioButton fx:id="rbDosPeor" mnemonicParsing="false" text="Peor Caso (misma X)" toggleGroup="$tgTipoDos" />
+                               </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Tallas:" />
+                                  <TextField fx:id="txtTallasDos" prefWidth="220.0" text="1000, 2000, 3000, 4000, 5000" />
+                                  <Label style="-fx-font-weight: bold;" text="Experimentos:" />
+                                  <TextField fx:id="txtRepeticionesDos" prefWidth="50.0" text="10" />
+                                  <Button fx:id="btnCompararDos" mnemonicParsing="false" onAction="#onCompararDos" text="Ejecutar Comparación" />
+                               </children>
+                            </HBox>
+                         </children>
+                      </VBox>
+                   </top>
+                   <center>
+                      <SplitPane dividerPositions="0.45" BorderPane.alignment="CENTER">
+                        <items>
+                            <VBox spacing="8.0">
+                               <padding>
+                                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                               </padding>
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Tabla Comparativa de Tiempos y Distancias:" />
+                                  <TableView fx:id="tablaCompararDos" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                      <TableColumn fx:id="colDosTalla" prefWidth="65.0" text="Talla" />
+                                      <TableColumn fx:id="colDosTiempo1" prefWidth="90.0" text="Tiempo 1" />
+                                      <TableColumn fx:id="colDosTiempo2" prefWidth="90.0" text="Tiempo 2" />
+                                      <TableColumn fx:id="colDosDist1" prefWidth="90.0" text="Dist. 1" />
+                                      <TableColumn fx:id="colDosDist2" prefWidth="90.0" text="Dist. 2" />
+                                    </columns>
+                                  </TableView>
+                               </children>
+                            </VBox>
+                            <VBox spacing="8.0">
+                               <padding>
+                                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                               </padding>
+                               <children>
+                                  <Label style="-fx-font-weight: bold;" text="Gráfico Comparativo de Distancias Calculadas:" />
+                                  <LineChart fx:id="chartCompararDistancias" animated="false" VBox.vgrow="ALWAYS">
+                                    <xAxis>
+                                      <NumberAxis label="Talla N" side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                      <NumberAxis label="Distancias Calculadas" side="LEFT" />
+                                    </yAxis>
+                                  </LineChart>
+                               </children>
+                            </VBox>
+                        </items>
+                      </SplitPane>
+                   </center>
+                </BorderPane>
+             </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="status-bar" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblEstado" styleClass="status-label" text="Listo. Cargue un fichero o genere un dataset aleatorio." />
+            <Pane HBox.hgrow="ALWAYS" />
+            <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0" visible="false" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
